@@ -4,6 +4,7 @@ config.py
 #adding additional files
 config.js
 static/js/config.js
+mapping_single_points/js/config.js
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
