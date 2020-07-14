@@ -1,5 +1,10 @@
 // Add console.log to check to see if our code is working.
 console.log("working");
+// Access the airport GeoJSON URL
+let airportData = "https://raw.githubusercontent.com/jburs/Mapping_Earthquakes/master/majorAirports.json";
+// Accessing the Toronto airline routes GeoJSON URL.
+let torontoData = "https://raw.githubusercontent.com/jburs/Mapping_Earthquakes/master/torontoRoutes.json";
+
 
 
 // We create the tile layer that will be the background of our map.
@@ -8,7 +13,7 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 	maxZoom: 18,
 	accessToken: API_KEY
 });
-let streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+let light = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
 	maxZoom: 18,
 	accessToken: API_KEY
@@ -16,7 +21,7 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 
 // create a base later that holds both maps
 let baseMaps = {
-	Street: streets,
+	Light: light,
 	Dark: dark
 }
 
@@ -24,25 +29,43 @@ let baseMaps = {
 // Create the map object with a center and zoom level (scale 0-18).
 // alternative form:  let map = L.map("mapid", {center: [40.7, -94.5],zoom: 4});
 let map = L.map('mapid', {
-	center: [30, 30],
+	center: [44.0, -80.0],
 	zoom: 2,
-	layers: [streets]
+	layers: [dark]
 });
 
 // Pass our map layers into our layers control and add the layers control to the map.
 L.control.layers(baseMaps).addTo(map);
 
 
-// get data from cities.js
-let cityData = cities;
 
-// Access the airport GeoJSON URL
-let airportData = "https://raw.githubusercontent.com/jburs/Mapping_Earthquakes/master/majorAirports.json";
 
+// Toronto flight Data
+
+// Create a style for the lines
+let myStyle = {
+	color: "#ffffa1",
+	weight: 2,
+	opacity: .5
+}
+
+// Grabbing our GeoJSON data
+d3.json(torontoData).then(function(data) {
+	console.log(data);
+	// creating GeoJSON layer with the retrieved data
+	L.geoJSON(data, {
+		style: myStyle,
+		onEachFeature: function(feature, layer) { 
+			layer.bindPopup("<h2>" + "airline: " + feature.properties.airline + "</h2> <hr> <h3>" + "destination: " + feature.properties.dst + "</h3>")
+		}
+	}).addTo(map);
+});
+
+
+// Airport Data
 // Grabbing our GeoJSON data
 d3.json(airportData)
 .then(function(data) {
-	console.log(data);
 	// Creating a GeoJSON layer with the retrieved data
 	L.geoJSON(data, {
 		onEachFeature: function(feature, layer) {
@@ -53,6 +76,13 @@ d3.json(airportData)
 
 
 
+
+
+// Legacy map features
+
+
+// get data from cities.js
+let cityData = cities;
 // loop through cities array, and create one marker for each city
 cityData.forEach(function(city) {
 	console.log(city)
