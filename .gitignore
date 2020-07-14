@@ -9,6 +9,7 @@ Mapping_single_points/static/js/config.js
 Mapping_Multiple_Points/static/js/config.js
 Mapping_Lines/static/js/config.js
 Mapping_GeoJSON_Points/static/js/config.js
+Mapping_GeoJSON_Linestrings/static/js/config.js
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
