@@ -34,22 +34,42 @@ L.control.layers(baseMaps).addTo(map);
 
 // Set style
 quakeStyle = {
-	fillColor: "#ffffa1",
+	fillColor: "yellow",
 	fillOpacity: .5,
 	radius: 5
 }
 
+// Fn to determine the radius of the earthquake marker based on its magnitude
+function getRadius(magnitude) {
+    if (magnitude === 0) {
+        return 1;
+    }
+    return magnitude * 4;
+}
+
+// Function to return the style data for each earthquake plotted
+function styleInfo(feature) {
+    return {
+        opacity: 1,
+        fillOpacity: 1,
+        fillColor: "#ffae42",
+        color: "#000000",
+        radius: getRadius(),
+        stroke: true,
+        weight: 0.5
+    }
+}
+
+
 
 // Retrieve the earthquake GeoJSON data.
 d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function(data) {
-  	// Creating a GeoJSON layer with the retrieved data.
- 	L.geoJson(data).addTo(map);
+  // Creating a GeoJSON layer with the retrieved data.
+ 	L.geoJson(data, {
+	 	pointToLayer: function(feature, latlng) {
+			console.log(data);
+            return L.circleMarker(latlng);
+        },
+    style: styleInfo
+ 	}).addTo(map);
 });
-
-
-
-
-
-
-
-
