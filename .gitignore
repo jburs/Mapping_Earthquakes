@@ -11,6 +11,7 @@ mapping_learning/Mapping_Lines/static/js/config.js
 mapping_learning/Mapping_GeoJSON_Points/static/js/config.js
 mapping_learning/Mapping_GeoJSON_Linestrings/static/js/config.js
 Earthquakes_past7days/static/js/config.js
+Earthquake_Challenge/static/js/config.js
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
