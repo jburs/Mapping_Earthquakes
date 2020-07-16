@@ -1,6 +1,3 @@
-Link: https://jburs.github.io/Mapping_Earthquakes/index.html
-
-
 # Mapping_Earthquakes
 Interactive earthquake data visualization;  JavaScript, mapbox, D3, leaflet
 
